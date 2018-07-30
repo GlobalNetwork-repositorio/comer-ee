@@ -12,7 +12,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { GenerarExcelMainComponent } from './generar-excel/generar-excel-main/generar-excel-main.component';
-
+import { EliminarCalculoMainComponent } from './eliminar-calculo/eliminar-calculo-main/eliminar-calculo-main.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -25,8 +26,9 @@ import { GenerarExcelMainComponent } from './generar-excel/generar-excel-main/ge
   
     MatSidenavModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    SharedModule
   ],
-  declarations: [MainProcesosComponent,CargarInfoMainComponent,CalcularVolumenMainComponent,GenerarExcelMainComponent]
+  declarations: [MainProcesosComponent,CargarInfoMainComponent,CalcularVolumenMainComponent,GenerarExcelMainComponent,EliminarCalculoMainComponent]
 })
 export class ProcesosModule { }

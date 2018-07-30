@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -48,6 +48,7 @@ import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { ConfigService } from './shared/config.service';
+import { InterceptorAutorizationService } from './shared/interceptor-autorization.service';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -107,12 +108,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AgmCoreModule.forRoot({apiKey: 'YOURAPIKEY'}),
     PerfectScrollbarModule
   ],
-  providers: [AuthGuard,ConfigService,
+  providers: [AuthGuard,ConfigService,InterceptorAutorizationService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
       
     }
+   
   ],
   bootstrap: [AppComponent]
 })

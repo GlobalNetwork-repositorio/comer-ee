@@ -12,7 +12,7 @@ export class InterceptorAutorizationService implements HttpInterceptor {
 
     const idToken = localStorage.getItem("token");
 
-   
+
     if (idToken) {
 
       const role = jwt_decode(idToken);

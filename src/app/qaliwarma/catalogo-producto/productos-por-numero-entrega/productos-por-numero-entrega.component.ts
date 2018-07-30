@@ -489,6 +489,24 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
     this.catalogoLotesModel = this.catalogoLotesModel.slice();
   }
 
+  
+  deleteCatalogoLote(e) {
+    
+    let id = e.idCatalogoMarca ;
+    this.crudHttpClientServiceShared.delete(id,"catalogoMarca","delete")
+    .subscribe( res=> {
+
+      swal({
+        position: 'top-end',
+        type: 'success',
+        title: 'Registro Eliminado',
+        showConfirmButton: true,
+        timer: 1500
+      });
+
+    })
+
+  }
   verIdPiking(e) {
     let id = e.idPiking;
 
