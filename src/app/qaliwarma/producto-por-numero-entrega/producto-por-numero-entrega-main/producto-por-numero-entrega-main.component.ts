@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { ItemEntregaModel } from '../../item-entrega/item-entrega-model';
@@ -9,13 +9,16 @@ import { CatalogoProductoService } from '../../catalogo-producto/catalogo-produc
 import { CatalogoProductoModel } from '../../catalogo-producto/catalogo-producto-model';
 import { isUndefined } from 'util';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { CrudHttpClientServiceShared } from '../../../shared/servicio/crudHttpClient.service.shared';
+import { MatTableDataSource, MatTable } from '@angular/material';
 
 
 @Component({
   selector: 'app-producto-por-numero-entrega-main',
   templateUrl: './producto-por-numero-entrega-main.component.html',
   styleUrls: ['./producto-por-numero-entrega-main.component.css'],
-  providers: [ItemEntregaService, ProductoPorNumeroEntregaService, CatalogoProductoService]
+  providers: [ItemEntregaService, ProductoPorNumeroEntregaService, CatalogoProductoService, 
+    CrudHttpClientServiceShared]
 })
 export class ProductoPorNumeroEntregaMainComponent implements OnInit {
 
@@ -32,13 +35,18 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
 
   public catalogoProductosModel: CatalogoProductoModel[];
 
-  displayedColumns = ['entregaPorItem.itemEntrega.anno', 'entregaPorItem.numeroEntrega.numeroEntregaValor', 'entregaPorItem.itemEntrega.item', 'catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma', 'edit'];
+  dataSource: MatTableDataSource<ProductoPorNumeroEntregaModel>;
 
+  displayedColumns = ['entregaPorItem.itemEntrega.anno', 'entregaPorItem.numeroEntrega.numeroEntregaValor', 'entregaPorItem.itemEntrega.item', 'catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma', 'edit','action'];
+
+  @ViewChild('table') matTable: MatTable<Element>;
+  
   selected: any;
   constructor(private formBuilder: FormBuilder, private itemEntregaService: ItemEntregaService,
     private productoPorNumeroEntregaService: ProductoPorNumeroEntregaService,
     private catalogoProductoService: CatalogoProductoService,
-    breakpointObserver: BreakpointObserver
+    breakpointObserver: BreakpointObserver,
+    private crudHttpClientServiceShared:CrudHttpClientServiceShared
   ) { 
 
      breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
@@ -82,7 +90,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
 
   compareFnProducto(t1: any, t2: any): boolean {
 
-    debugger;
+    
     if (t2.idCatalogoProductoQaliwarma == null || isUndefined(t2.idCatalogoProductoQaliwarma) || t1.idCatalogoProductoQaliwarma == null || isUndefined(t1.idCatalogoProductoQaliwarma))
       return;
 
@@ -97,6 +105,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
       .subscribe(
         res => {
           this.itemEntregasModel = res;
+          
         }
       )
   }
@@ -108,7 +117,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
         res => {
 
           this.ProductoPorNumeroEntregasModel = res;
-          //this.ProductoPorNumeroEntregasModel.sort( (a,b) => b.catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma - a.catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma );
+          this.dataSource = new MatTableDataSource(this.ProductoPorNumeroEntregasModel);
           console.log(this.ProductoPorNumeroEntregasModel);
         }
       )
@@ -121,5 +130,21 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
     this.getProductoPorNumeroEntregaPorNumeroEntregaAndAnnoAndItem();
   }
 
+  changeValue(e){
+   
+  }
 
+  update(e){
+    //console.log(e);
+   
+    this.crudHttpClientServiceShared.update( JSON.stringify(e),"productoPorNumeroEntrega","update")
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
 }
