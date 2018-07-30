@@ -37,7 +37,7 @@
       <div class="col-md-6">
 
         <mat-form-field>
-          <mat-select placeholder="Item" [(value)]="selected">
+          <mat-select placeholder="Item" [(value)]="selected" (selectionChange)="changeValue($event)">
             <mat-option *ngFor="let item of itemEntregasModel" [value]="item.item">
               {{item.dscitem}}
             </mat-option>
@@ -134,7 +134,7 @@
 
       <span class="mobile-label">Producto:</span>
 
-      <mat-select (selectionChange)="changeValue($event)" placeholder="Producto" [compareWith]="compareFnProducto" [(ngModel)]="element.catalogoProductoQaliwarma">
+      <mat-select  placeholder="Producto" [compareWith]="compareFnProducto" [(ngModel)]="element.catalogoProductoQaliwarma">
         <mat-option *ngFor="let producto of catalogoProductosModel" [value]="producto">
           {{producto.dscCatalogoProductoQaliwarma}}
         </mat-option>

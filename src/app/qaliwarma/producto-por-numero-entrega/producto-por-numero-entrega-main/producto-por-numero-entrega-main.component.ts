@@ -11,13 +11,14 @@ import { isUndefined } from 'util';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CrudHttpClientServiceShared } from '../../../shared/servicio/crudHttpClient.service.shared';
 import { MatTableDataSource, MatTable } from '@angular/material';
+import swal from 'sweetalert2';
 
 
 @Component({
   selector: 'app-producto-por-numero-entrega-main',
   templateUrl: './producto-por-numero-entrega-main.component.html',
   styleUrls: ['./producto-por-numero-entrega-main.component.css'],
-  providers: [ItemEntregaService, ProductoPorNumeroEntregaService, CatalogoProductoService, 
+  providers: [ItemEntregaService, ProductoPorNumeroEntregaService, CatalogoProductoService,
     CrudHttpClientServiceShared]
 })
 export class ProductoPorNumeroEntregaMainComponent implements OnInit {
@@ -37,23 +38,23 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
 
   dataSource: MatTableDataSource<ProductoPorNumeroEntregaModel>;
 
-  displayedColumns = ['entregaPorItem.itemEntrega.anno', 'entregaPorItem.numeroEntrega.numeroEntregaValor', 'entregaPorItem.itemEntrega.item', 'catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma', 'edit','action'];
+  displayedColumns = ['entregaPorItem.itemEntrega.anno', 'entregaPorItem.numeroEntrega.numeroEntregaValor', 'entregaPorItem.itemEntrega.item', 'catalogoProductoQaliwarma.dscCatalogoProductoQaliwarma', 'edit', 'action'];
 
   @ViewChild('table') matTable: MatTable<Element>;
-  
+
   selected: any;
   constructor(private formBuilder: FormBuilder, private itemEntregaService: ItemEntregaService,
     private productoPorNumeroEntregaService: ProductoPorNumeroEntregaService,
     private catalogoProductoService: CatalogoProductoService,
     breakpointObserver: BreakpointObserver,
-    private crudHttpClientServiceShared:CrudHttpClientServiceShared
-  ) { 
+    private crudHttpClientServiceShared: CrudHttpClientServiceShared
+  ) {
 
-     breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
-      this.displayedColumns = result.matches ? 
-      this.displayedColumns : 
-      this.displayedColumns;
-     });
+    breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
+      this.displayedColumns = result.matches ?
+        this.displayedColumns :
+        this.displayedColumns;
+    });
 
   }
 
@@ -74,7 +75,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
   }
 
   highlight(row) {
- 
+
     this.selectedRowIndex = row.idProductoPorNumeroEntrega;
   }
 
@@ -90,7 +91,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
 
   compareFnProducto(t1: any, t2: any): boolean {
 
-    
+
     if (t2.idCatalogoProductoQaliwarma == null || isUndefined(t2.idCatalogoProductoQaliwarma) || t1.idCatalogoProductoQaliwarma == null || isUndefined(t1.idCatalogoProductoQaliwarma))
       return;
 
@@ -105,7 +106,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
       .subscribe(
         res => {
           this.itemEntregasModel = res;
-          
+
         }
       )
   }
@@ -130,21 +131,34 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
     this.getProductoPorNumeroEntregaPorNumeroEntregaAndAnnoAndItem();
   }
 
-  changeValue(e){
-   
+  changeValue(e) {
+    this.cargarData();
+
   }
 
-  update(e){
+  update(e) {
     //console.log(e);
-   
-    this.crudHttpClientServiceShared.update( JSON.stringify(e),"productoPorNumeroEntrega","update")
-    .subscribe(
-      res => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      }
-    )
+
+    this.crudHttpClientServiceShared.update(JSON.stringify(e), "productoPorNumeroEntrega", "update")
+      .subscribe(
+        res => {
+          console.log(res);
+        },
+        error => {
+          console.log(error);
+        },
+
+        () => {
+
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Registro Actualizado',
+            showConfirmButton: false,
+            timer: 1500
+          })
+
+        }
+      )
   }
 }
