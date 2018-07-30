@@ -66,6 +66,7 @@ export class ProductoPorNumeroEntregaMainComponent implements OnInit {
   }
 
   highlight(row) {
+ 
     this.selectedRowIndex = row.idProductoPorNumeroEntrega;
   }
 
