@@ -12,13 +12,15 @@ import { ChoferService } from '../../parametros/chofer/chofer.service';
 import { VehiculoService } from '../../parametros/vehiculo/vehiculo.service';
 import { ChoferModel } from '../../parametros/chofer/chofer-model';
 import { VehiculoModel } from '../../parametros/vehiculo/vehiculo-model';
+import { TransportistaModel } from '../../parametros/transportista/transportista-model';
+import { TransportistaService } from '../../parametros/transportista/transportista.service';
 
 
 @Component({
   selector: 'app-ruta-distribucion-edit',
   templateUrl: './ruta-distribucion-edit.component.html',
   styleUrls: ['./ruta-distribucion-edit.component.css'],
-  providers: [CrudHttpClientServiceShared, UtilitariosAdicse, ChoferService, VehiculoService]
+  providers: [CrudHttpClientServiceShared, UtilitariosAdicse, ChoferService, VehiculoService, TransportistaService]
 })
 export class RutaDistribucionEditComponent implements OnInit {
 
@@ -39,13 +41,17 @@ export class RutaDistribucionEditComponent implements OnInit {
   public vehiculoModel: VehiculoModel = new VehiculoModel();
   public vehiculosModel: VehiculoModel[];
 
+  public transportistaModel: TransportistaModel = new TransportistaModel();
+  public transportistasModel: TransportistaModel[];
+
   constructor(
     private activateRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private crudHttpClientServiceShared: CrudHttpClientServiceShared,
     private utilitariosAdicse: UtilitariosAdicse,
     private choferService: ChoferService,
-    private vehiculoService: VehiculoService
+    private vehiculoService: VehiculoService,
+    private transportistaService:TransportistaService
 
   ) {
 
@@ -63,12 +69,13 @@ export class RutaDistribucionEditComponent implements OnInit {
     this.rutaDistribucionModel.empleadoDistribuidor = new EmpleadoDistribuidorModel();
     this.rutaDistribucionModel.chofer = new ChoferModel();
     this.rutaDistribucionModel.vehiculo = new VehiculoModel();
+    this.rutaDistribucionModel.transportista = new TransportistaModel();
 
     let d = new Date();
 
 
     this.anno = parseInt(localStorage.getItem("anno"));
-    this.rutaDistribucionModel.numeroEntrega = parseInt( localStorage.getItem("numeroEntrega"));
+    this.rutaDistribucionModel.numeroEntrega = parseInt(localStorage.getItem("numeroEntrega"));
 
 
 
@@ -80,6 +87,7 @@ export class RutaDistribucionEditComponent implements OnInit {
 
     this.getChoferAll();
     this.getVehiculosAll();
+    this.getTransportistasAll();
 
     this.buildForm();
 
@@ -110,6 +118,7 @@ export class RutaDistribucionEditComponent implements OnInit {
       empleadoDistribuidor: this.formBuilder.group(this.rutaDistribucionModel.empleadoDistribuidor),
       chofer: [this.rutaDistribucionModel.chofer],
       vehiculo: [this.rutaDistribucionModel.vehiculo],
+      transportista: [this.rutaDistribucionModel.transportista],
       rutaDistribucionDetalles: [null]
 
     })
@@ -117,11 +126,8 @@ export class RutaDistribucionEditComponent implements OnInit {
   }
 
   compareFnChofer(t1: any, t2: any): boolean {
-   
-   
-    if(t2.idChofer == null || isUndefined( t2.idChofer) || t1.idChofer == null || isUndefined( t1.idChofer))
+    if (t2.idChofer == null || isUndefined(t2.idChofer) || t1.idChofer == null || isUndefined(t1.idChofer))
       return;
-
 
     if (t1.idChofer === t2.idChofer) {
       return true;
@@ -130,26 +136,37 @@ export class RutaDistribucionEditComponent implements OnInit {
   }
 
   compareFnVehiculo(t1: any, t2: any): boolean {
-  
-
-    if (t1.idVehiculo === t2.idVehiculo || isUndefined(t2.idVehiculo) ) {
+    if (t1.idVehiculo === t2.idVehiculo || isUndefined(t2.idVehiculo)) {
       return true;
     }
-
   }
+
+
+  compareFnTransportista(t1: any, t2: any): boolean {
+    if (t1.idTransportista === t2.idTransportista || isUndefined(t2.idTransportista)) {
+      return true;
+    }
+  }
+
 
   edit() {
 
     this.crudHttpClientServiceShared.edit(this.id, "rutaDistribucion", "edit").subscribe(
 
       res => {
-       
+
         this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
-          !isUndefined(res.chofer)?
-          new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres):new ChoferModel()
+          !isUndefined(res.chofer) ?
+            new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres) : new ChoferModel()
           ,
-          !isUndefined(res.vehiculo)?
-          new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo):new VehiculoModel());
+          !isUndefined(res.vehiculo) ?
+            new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo) : new VehiculoModel(),
+          !isUndefined(res.transportista) ?
+           new TransportistaModel(res.transportista.idTransportista , res.transportista.proveedorcliente,) : new TransportistaModel()
+
+          );
+
+
         this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
 
         //this.buildForm();
@@ -182,13 +199,13 @@ export class RutaDistribucionEditComponent implements OnInit {
 
       res => {
         this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
-          !isUndefined(res.chofer)?
-          new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres):new ChoferModel()
+          !isUndefined(res.chofer) ?
+            new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres) : new ChoferModel()
           ,
-          !isUndefined(res.vehiculo)?
-          new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo):new VehiculoModel());
+          !isUndefined(res.vehiculo) ?
+            new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo) : new VehiculoModel());
 
-          this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
+        this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
         this.flagRefreshReturn = true;
       },
       error => console.log(error),
@@ -260,4 +277,17 @@ export class RutaDistribucionEditComponent implements OnInit {
       )
   }
 
+
+  getTransportistasAll() {
+    this.transportistaService.getall()
+      .subscribe(
+        res => {
+          this.transportistasModel = res.map(
+            item => {
+              return new TransportistaModel(item.idTransportista,item.proveedorcliente);
+            }
+          )
+        }
+      )
+  }
 }

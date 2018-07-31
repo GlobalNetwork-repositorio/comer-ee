@@ -22,7 +22,7 @@
               "src/assets/images"
             ],
             "styles": [
-
+              "node_modules/primeicons/primeicons.css",
               "node_modules/tether/dist/css/tether.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",

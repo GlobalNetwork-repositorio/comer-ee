@@ -26,6 +26,7 @@ export class RequerimientoVolumen001ListComponent implements OnInit {
   public requerimientoVolumen001Model: RequerimientoVolumen001Model;
   public requerimientoVolumen001sModel: RequerimientoVolumen001Model[];
   public filtroCodigoModular:string="";
+  public requerimientoSelect : RequerimientoVolumen001Model[];
 
   @Input()
   public requerimientoVolumen001SeleccionadosModel: RequerimientoVolumen001Model[];

@@ -48,6 +48,15 @@
         </div>
       </div>
 
+    <!-- Transportista -->
+    <div class="row">
+        <label class="col-form-label col-2" for="chofer">Transportista</label>
+        <select formControlName="transportista" class="form-control col-4 inputselect" [compareWith]="compareFnTransportista" style="margin-left: 15px;">
+          <option value="">Seleccione</option>
+          <option *ngFor="let item of this.transportistasModel" [ngValue]="item">{{item.proveedorcliente.razonsocial}}</option>
+        </select>
+      </div>
+
       <!-- Chofer -->
       <div class="row">
         <label class="col-form-label col-2" for="chofer">Chofer</label>

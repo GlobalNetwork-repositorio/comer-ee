@@ -25,7 +25,7 @@
   <mat-menu #user="matMenu" x-position="before">
     <button mat-menu-item>
       <mat-icon>settings</mat-icon>
-      Settings
+      Configuracion
     </button>
     <button mat-menu-item>
       <mat-icon>account_box</mat-icon>
@@ -35,9 +35,9 @@
       <mat-icon>notifications_off</mat-icon>
       Disable notifications
     </button>
-    <button mat-menu-item>
+    <button (click)="onLoggedout()" mat-menu-item>
       <mat-icon>exit_to_app</mat-icon>
-      Sign Out
+      Cerrar Sesion
     </button>
   </mat-menu>
 </mat-toolbar>

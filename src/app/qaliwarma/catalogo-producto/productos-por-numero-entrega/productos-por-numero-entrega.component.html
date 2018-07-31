@@ -67,9 +67,16 @@
           <i style="cursor: pointer;" class="fa fa-save fa-2x" aria-hidden="true" data-toggle="tooltip" title="Grabar" (click)="grabarCatalogoMarca(data)"></i>&nbsp;
           <!-- <i style="cursor: pointer;" class="fa fa-search fa-1x" aria-hidden="true" data-toggle="tooltip" title="Ver Lotes" (click)="getCatalogoLoteByIdCatalogoMarca(data)"></i>&nbsp;&nbsp; -->
           <i style="cursor: pointer;" class="fa fa-plus-circle fa-3x" style="color:red;cursor: pointer;font-size:16px;" aria-hidden="true"
-            data-toggle="tooltip" title="Agregar Lote" (click)="addCatalogoLote(data)"></i>&nbsp;&nbsp;
-            <i style="cursor: pointer;" class="fa fa-plus-circle fa-3x" style="color:red;cursor: pointer;font-size:16px;" aria-hidden="true"
-            data-toggle="tooltip" title="Eliminar Registro" (click)="deleteCatalogoLote(data)"></i>&nbsp;&nbsp;            
+            data-toggle="tooltip" title="Agregar Lote" (click)="addCatalogoLote(data)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <i (click)="deleteCatalogoLote(data)" style="cursor: pointer;" class="fa fa-trash-o fa-1x" style="cursor: pointer;font-size:16px;color:red"
+            aria-hidden="true" data-toggle="tooltip" title="Eliminar/Quitar"></i>&nbsp;
+            
+            
+            <!-- <i style="cursor: pointer;" class="fa fa-plus-circle fa-3x" style="color:red;cursor: pointer;font-size:16px;" aria-hidden="true"
+            data-toggle="tooltip" title="Eliminar Registro" (click)="deleteCatalogoLote(data)"></i>&nbsp;&nbsp;             -->
+
+
         </ng-template>
       </p-column>
 
@@ -89,7 +96,10 @@
 
       <p-column header="Fecha Vencimiento">
         <ng-template let-data="rowData" pTemplate type="body">
-          <p-calendar [(ngModel)]="data.fechaVencimiento" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+              <p-calendar [(ngModel)]="data.fechaVencimiento" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          
         </ng-template>
       </p-column>
 

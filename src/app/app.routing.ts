@@ -49,7 +49,7 @@ export const AppRoutes: Routes = [
         path : 'qaliwarma/parametros',
         loadChildren : './qaliwarma/parametros/parametros.module#ParametrosModule'
       }
-      
+    
 
     ]
   }, 

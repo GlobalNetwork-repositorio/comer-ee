@@ -3,6 +3,7 @@ import { EmpleadoDistribuidorModel } from "../empleado-distribuidor/empleado-dis
 import { RutaDistribucionDetalleModel } from "./ruta-distribucion-detalle-model";
 import { ChoferModel } from "../parametros/chofer/chofer-model";
 import { VehiculoModel } from "../parametros/vehiculo/vehiculo-model";
+import { TransportistaModel } from "../parametros/transportista/transportista-model";
 
 
 export class RutaDistribucionModel {
@@ -15,6 +16,7 @@ export class RutaDistribucionModel {
         public empleadoDistribuidor:EmpleadoDistribuidorModel=new EmpleadoDistribuidorModel(),
         public chofer:ChoferModel=new ChoferModel(),
         public vehiculo:VehiculoModel=new VehiculoModel(),
+        public transportista:TransportistaModel = new TransportistaModel(),
         public rutaDistribucionDetalles:RutaDistribucionDetalleModel[]=[]
 
     ){

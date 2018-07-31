@@ -127,7 +127,7 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
   onRowClickMarcasPorPresentacion(e: any) {
 
 
-    debugger;
+    
     if (this.selectionMarca) {
       if (this.selectionMarca == e.data) {
         return;
@@ -206,7 +206,11 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
   }
 
   actualizaPikinModel(select) {
-    debugger;
+    
+    if(select==null){
+      this.loading = false;
+      return ;
+    }
     let idCatalogoLote = this.selectionLote.idCatalogoLote;
     let idProductoPorNumeroEntrega = this.selection.idProductoPorNumeroEntrega;
     this.loading = true;
@@ -220,6 +224,7 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
       //piking.catalogoLote.pikings = null;
       this.selectionLote.pikings.push(piking);
       this.updatePikingList(idProductoPorNumeroEntrega, idCatalogoLote);
+      this.loading = false;
       return;
     }
 
@@ -268,6 +273,7 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
         this.selectionLote.pikings = res.map(item => {
           return new PikingModel(item.idPiking, item.requerimientoVolumen001, item.cantidad, item.catalogoLote, item.volumenConvertidoEnvace)
         })
+        
         this.selectionLote.pikings = this.selectionLote.pikings.slice();
 
       },
@@ -284,7 +290,9 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
         this.sumaPiking = 0;
 
         this.selectionLote.pikings.forEach(element => {
-          this.sumaCalculado = this.sumaCalculado + element.volumenConvertidoEnvace.cantidad;
+        
+          let VolumenConvertidoCantidad =  element.volumenConvertidoEnvace==null?0:element.volumenConvertidoEnvace.cantidad;
+          this.sumaCalculado = this.sumaCalculado + VolumenConvertidoCantidad;
           this.sumaPiking = this.sumaPiking + element.cantidad;
           element.idPiking = this.selectionLote.idCatalogoLote + "-" + this.utilitariosAdicse.randomString();
         });
@@ -342,7 +350,7 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
     let codigoModular = element.codigomodularIinstitucionEducativa.codigoModular;
 
     this.pikingsModel.forEach(item => {
-      debugger;
+      
       let codigoModularItem = item.requerimientoVolumen001.codigomodularIinstitucionEducativa.codigoModular;
 
       if (codigoModular == codigoModularItem) {
@@ -532,7 +540,7 @@ export class ProductosPorNumeroEntregaComponent implements OnInit {
   grabarCatalogoLote(e) {
     console.log(e);
     //let fv = this.configService.getDateString(e.fechaVencimiento);
-    debugger;
+    
     let lote = this.selectionLote;
 
     if (!isString(e.fechaVencimiento)) {
