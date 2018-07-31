@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material';
 import {MatListModule} from '@angular/material/list';
+import { PlanRastreabilidadComponent } from './plan-rastreabilidad/plan-rastreabilidad.component';
 
 
 @NgModule({
@@ -27,6 +28,6 @@ import {MatListModule} from '@angular/material/list';
     MatCheckboxModule,
     MatListModule
   ],
-  declarations: [MainComponent, ControlDespachoMainComponent, ValorizacionMainComponent]
+  declarations: [MainComponent, ControlDespachoMainComponent, ValorizacionMainComponent, PlanRastreabilidadComponent]
 })
 export class ConsultasModule { }

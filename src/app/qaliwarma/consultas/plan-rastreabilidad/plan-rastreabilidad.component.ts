@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { ControlDespachoService } from '../control-despacho.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { PlanRastreabilidadService } from './plan-rastreabilidad.service';
 import swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-control-despacho-main',
-  templateUrl: './control-despacho-main.component.html',
-  styleUrls: ['./control-despacho-main.component.css'],
-  providers : [ControlDespachoService]
+  selector: 'app-plan-rastreabilidad',
+  templateUrl: './plan-rastreabilidad.component.html',
+  styleUrls: ['./plan-rastreabilidad.component.scss'],
+  providers : [PlanRastreabilidadService]
 })
-export class ControlDespachoMainComponent implements OnInit {
+export class PlanRastreabilidadComponent implements OnInit {
+
   dataForm: any;
   blocked :boolean= false;
   public anno:number = 2018;
   public numeroEntrega:number = 1;
-  public titulo = "REPORTE CONTROL DESPACHO"
-  constructor(private formBuilder: FormBuilder,private controlDespachoService:ControlDespachoService) { }
+  public titulo = "PLAN DE RASTREABILIDAD"
+  constructor(private formBuilder: FormBuilder,private planRastreabilidadService:PlanRastreabilidadService) { }
 
   ngOnInit() {
     this.numeroEntrega = parseInt( localStorage.getItem("numeroEntrega"));
@@ -33,14 +34,12 @@ export class ControlDespachoMainComponent implements OnInit {
 
   generar(){
     this.blocked = true;
-
-    
     let d = new Date();
     let a = document.createElement("a");
     document.body.appendChild(a);
     a.style.display = "none";
-    let nombre = "CONTROL DESPACHO-"+this.anno + "-" + this.numeroEntrega + "-" + d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds();
-    this.controlDespachoService.generarReporte (this.anno,this.numeroEntrega).subscribe(
+    let nombre = "RASTREABILIDAD-"+this.anno + "-" + this.numeroEntrega + "-" + d.getDate()+"-"+d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds();
+    this.planRastreabilidadService.generarReporte (this.anno,this.numeroEntrega).subscribe(
       res => {
        
         if (res.body.size == 0) {  
@@ -79,5 +78,6 @@ export class ControlDespachoMainComponent implements OnInit {
       );
     
   }
+
 
 }

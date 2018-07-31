@@ -15,7 +15,7 @@ export class ItemEntregaService {
   }
   getItems(anno:number):Observable<ItemEntregaModel[]>{
 
-    let url = this.configService.getUrlSecurityRes("itemEntrega", "byanno");
+    let url = this.configService.getUrlSecurityRes("itemEntrega", "getall");
     let sanno = anno.toString();
     
     let params = new HttpParams()

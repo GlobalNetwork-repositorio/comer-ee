@@ -51,6 +51,7 @@ import { ConfigService } from './shared/config.service';
 import { InterceptorAutorizationService } from './shared/interceptor-autorization.service';
 
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -75,6 +76,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AccordionAnchorDirective,
     AccordionLinkDirective,
     AccordionDirective
+
 
   ],
   imports: [

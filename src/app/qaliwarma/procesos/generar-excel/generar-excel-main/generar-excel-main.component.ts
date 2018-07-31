@@ -50,7 +50,7 @@ export class GenerarExcelMainComponent implements OnInit {
     this.blocked = true;
 
 
-    console.log("hola carlos");;
+
     
     let d = new Date();
     let a = document.createElement("a");
