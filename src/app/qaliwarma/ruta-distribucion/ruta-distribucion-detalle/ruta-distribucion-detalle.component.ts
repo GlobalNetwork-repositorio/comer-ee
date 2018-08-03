@@ -166,10 +166,10 @@ export class RutaDistribucionDetalleComponent implements OnInit {
 
     this.crudHttpClientServiceShared.edit(this.id, "rutaDistribucion", "editDetalle").subscribe(
       res => {
-    
-        this.rutaDistribucionModel =  new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,res.chofer,res.vehiculo,res.rutaDistribucionDetalles
+   
+        this.rutaDistribucionModel =  
+        new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,res.chofer,  res.vehiculo, res.transportista, res.rutaDistribucionDetalles
         );
-
       
         this.buildForm();
         this.sumTotalAcum();

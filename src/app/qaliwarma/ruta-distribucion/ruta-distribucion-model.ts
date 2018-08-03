@@ -4,6 +4,8 @@ import { RutaDistribucionDetalleModel } from "./ruta-distribucion-detalle-model"
 import { ChoferModel } from "../parametros/chofer/chofer-model";
 import { VehiculoModel } from "../parametros/vehiculo/vehiculo-model";
 import { TransportistaModel } from "../parametros/transportista/transportista-model";
+import { Moment } from "moment";
+
 
 
 export class RutaDistribucionModel {
@@ -17,6 +19,7 @@ export class RutaDistribucionModel {
         public chofer:ChoferModel=new ChoferModel(),
         public vehiculo:VehiculoModel=new VehiculoModel(),
         public transportista:TransportistaModel = new TransportistaModel(),
+        public fechaDistribucion:string=null,
         public rutaDistribucionDetalles:RutaDistribucionDetalleModel[]=[]
 
     ){

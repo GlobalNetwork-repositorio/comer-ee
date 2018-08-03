@@ -21,7 +21,7 @@
       </div>
       <div class="row">
         <label class="col-md-2">Periodo</label>
-        <input type="number" class="col-md-3 form-control inputfield ml-3" formControlName="anno">
+        <input type="number" style="margin-left: -10px;" class="col-md-3 form-control inputfield ml-3" formControlName="anno">
       </div>
 
       <div class="row">
@@ -48,8 +48,25 @@
         </div>
       </div>
 
-    <!-- Transportista -->
-    <div class="row">
+      <!-- Fecha Distribucion -->
+
+      <mat-form-field>
+        <input formControlName="fechaDistribucion" matInput [matDatepicker]="picker" placeholder="Fecha Distribucion" onkeyup="
+          let v = this.value;
+          debugger;
+          if (v.match(/^\d{2}$/) !== null) {
+              this.value = v + '/';
+          } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+              this.value = v + '/';
+          }" (keypress)="_keyPress($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker (selectedChanged)="updateDateToString($event)"></mat-datepicker>
+        <mat-error *ngIf="rutaDistribucionForm.controls.fechaDistribucion.errors?.required && (rutaDistribucionForm.controls.fechaDistribucion.dirty || rutaDistribucionForm.controls.fechaDistribucion.touched)">Fecha Invalida
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Transportista -->
+      <div class="row">
         <label class="col-form-label col-2" for="chofer">Transportista</label>
         <select formControlName="transportista" class="form-control col-4 inputselect" [compareWith]="compareFnTransportista" style="margin-left: 15px;">
           <option value="">Seleccione</option>

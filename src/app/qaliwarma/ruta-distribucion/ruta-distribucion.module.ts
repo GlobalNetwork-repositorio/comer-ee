@@ -16,7 +16,11 @@ import { RutaDistribucionDetalleComponent } from './ruta-distribucion-detalle/ru
 import { VolumenRequerimiento001Module } from '../requerimiento-volumen-001/volumen-requerimiento-001.module';
 import { MapaDistribucionComponent } from './mapa-distribucion/mapa-distribucion.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatNativeDateModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MOMENT_DATE_FORMATS, MomentDateAdapter } from '../../shared/validators/MomentDateAdapter';
+
+
 
 
 @NgModule({
@@ -32,9 +36,21 @@ import { MatInputModule } from '@angular/material';
     EmpleadoDistribuidorModule,
     VolumenRequerimiento001Module,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+    
   ],
-  declarations: [ RutaDistribucionMainComponent, RutaDistribucionListComponent, RutaDistribucionEditComponent, RutaDistribucionDetalleComponent, MapaDistribucionComponent]
+  declarations: [ RutaDistribucionMainComponent, RutaDistribucionListComponent, RutaDistribucionEditComponent, RutaDistribucionDetalleComponent, MapaDistribucionComponent],
+  providers : [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter },
+   
+  ],
+  exports : [
+    MatDatepickerModule
+  ]
   
 })
 export class RutaDistribucionModule { }

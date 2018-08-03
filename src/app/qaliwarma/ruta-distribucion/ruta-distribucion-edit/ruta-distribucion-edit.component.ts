@@ -14,15 +14,27 @@ import { ChoferModel } from '../../parametros/chofer/chofer-model';
 import { VehiculoModel } from '../../parametros/vehiculo/vehiculo-model';
 import { TransportistaModel } from '../../parametros/transportista/transportista-model';
 import { TransportistaService } from '../../parametros/transportista/transportista.service';
+import { MomentDateAdapter } from '../../../shared/validators/MomentDateAdapter';
+import * as moment from 'moment';
+
+
 
 
 @Component({
   selector: 'app-ruta-distribucion-edit',
   templateUrl: './ruta-distribucion-edit.component.html',
   styleUrls: ['./ruta-distribucion-edit.component.css'],
-  providers: [CrudHttpClientServiceShared, UtilitariosAdicse, ChoferService, VehiculoService, TransportistaService]
+  providers: [
+  
+
+    CrudHttpClientServiceShared, UtilitariosAdicse, ChoferService, VehiculoService, TransportistaService,MomentDateAdapter]
 })
+
+
 export class RutaDistribucionEditComponent implements OnInit {
+
+
+
 
   isBuscador = false;
   flagRefreshReturn: boolean;
@@ -44,6 +56,8 @@ export class RutaDistribucionEditComponent implements OnInit {
   public transportistaModel: TransportistaModel = new TransportistaModel();
   public transportistasModel: TransportistaModel[];
 
+  events: string[] = [];
+
   constructor(
     private activateRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -51,7 +65,8 @@ export class RutaDistribucionEditComponent implements OnInit {
     private utilitariosAdicse: UtilitariosAdicse,
     private choferService: ChoferService,
     private vehiculoService: VehiculoService,
-    private transportistaService:TransportistaService
+    private transportistaService: TransportistaService,
+    private DateAdapter:MomentDateAdapter
 
   ) {
 
@@ -93,6 +108,34 @@ export class RutaDistribucionEditComponent implements OnInit {
 
   }
 
+  updateDateToString(event) {
+    let newDate = new Date(event)
+    
+    let dd: number | string = newDate.getDate();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    let mm: number | string = newDate.getMonth() + 1;
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    debugger;
+    const yy: number = newDate.getFullYear();
+    //this.myModel.MyDateString = `${yy}-${mm}-${dd}`;    
+  }
+  
+  _keyPress(event: any) {
+    debugger;
+    const pattern = /^[0-9]*$/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    
+
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
   ocultarLista() {
     this.show = false;
 
@@ -116,6 +159,10 @@ export class RutaDistribucionEditComponent implements OnInit {
       anno: [this.anno, Validators.required],
       numeroEntrega: [this.rutaDistribucionModel.numeroEntrega, Validators.required],
       empleadoDistribuidor: this.formBuilder.group(this.rutaDistribucionModel.empleadoDistribuidor),
+      fechaDistribucion : ['' , Validators.compose([
+        Validators.required
+        //this.validateDate
+      ])],
       chofer: [this.rutaDistribucionModel.chofer],
       vehiculo: [this.rutaDistribucionModel.vehiculo],
       transportista: [this.rutaDistribucionModel.transportista],
@@ -150,26 +197,30 @@ export class RutaDistribucionEditComponent implements OnInit {
 
 
   edit() {
-
+    
     this.crudHttpClientServiceShared.edit(this.id, "rutaDistribucion", "edit").subscribe(
 
       res => {
+        this.updateModel(res);
 
-        this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
+/*         this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
           !isUndefined(res.chofer) ?
             new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres) : new ChoferModel()
           ,
           !isUndefined(res.vehiculo) ?
             new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo) : new VehiculoModel(),
           !isUndefined(res.transportista) ?
-           new TransportistaModel(res.transportista.idTransportista , res.transportista.proveedorcliente,) : new TransportistaModel()
+            new TransportistaModel(res.transportista.idTransportista, res.transportista.proveedorcliente, ) : new TransportistaModel(),
+            res.fechaDistribucion
+            
 
-          );
+        ); */
 
+        let dateMoment = this.DateAdapter.createDateMomentFromString ( this.rutaDistribucionModel.fechaDistribucion);
 
         this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
+        this.rutaDistribucionForm.controls['fechaDistribucion'].setValue(dateMoment);
 
-        //this.buildForm();
 
       },
       error => console.log(error),
@@ -190,6 +241,8 @@ export class RutaDistribucionEditComponent implements OnInit {
 
     this.rutaDistribucionForm.get('idRutaDistribucion').setValue(dia + mes + year + "-" + this.utilitariosAdicse.randomString());
 
+    let fechaDist = this.DateAdapter.format(this.rutaDistribucionForm.controls['fechaDistribucion'].value,'DD/MM/YYYY');   
+    this.rutaDistribucionForm.controls['fechaDistribucion'].setValue(fechaDist);
     let dataform = JSON.stringify(this.rutaDistribucionForm.value);
 
     console.log(dataform)
@@ -198,14 +251,17 @@ export class RutaDistribucionEditComponent implements OnInit {
     this.crudHttpClientServiceShared.create(dataform, "rutaDistribucion", "create").subscribe(
 
       res => {
-        this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
+/*         this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
           !isUndefined(res.chofer) ?
             new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres) : new ChoferModel()
           ,
           !isUndefined(res.vehiculo) ?
             new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo) : new VehiculoModel());
-
-        this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
+ */
+        debugger;
+        this.updateModel(res);
+        //this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
+        
         this.flagRefreshReturn = true;
       },
       error => console.log(error),
@@ -223,16 +279,19 @@ export class RutaDistribucionEditComponent implements OnInit {
 
   update() {
 
+  
+    let fechaDist = this.DateAdapter.format(this.rutaDistribucionForm.controls['fechaDistribucion'].value,'DD/MM/YYYY');   
+    this.rutaDistribucionForm.controls['fechaDistribucion'].setValue(fechaDist);    
     let dataform = JSON.stringify(this.rutaDistribucionForm.value);
-    debugger;
-    debugger;
+ 
     console.log(dataform);
-    //this.rutaDistribucionModel.idRutaDistribucion = 
+  
     this.crudHttpClientServiceShared.update(dataform, "rutaDistribucion", "update").subscribe(
 
 
       res => {
-        this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor);
+        this.updateModel(res);
+        //this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor);
         //this.buildForm();
         this.flagRefreshReturn = true;
       },
@@ -248,6 +307,27 @@ export class RutaDistribucionEditComponent implements OnInit {
       }
     )
 
+  }
+
+  updateModel(res){
+    //this.rutaDistribucionForm.reset();
+    this.rutaDistribucionModel = new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,
+      !isUndefined(res.chofer) ?
+        new ChoferModel(res.chofer.idChofer, res.chofer.dni, res.chofer.numeroBrevete, res.chofer.nombres) : new ChoferModel()
+      ,
+      !isUndefined(res.vehiculo) ?
+        new VehiculoModel(res.vehiculo.idVehiculo, res.vehiculo.numeroPlaca, res.vehiculo.marcaVehiculo) : new VehiculoModel(),
+      !isUndefined(res.transportista) ?
+        new TransportistaModel(res.transportista.idTransportista, res.transportista.proveedorcliente, ) : new TransportistaModel(),
+        res.fechaDistribucion
+        
+
+    );
+    
+    let dateMoment = this.DateAdapter.createDateMomentFromString ( this.rutaDistribucionModel.fechaDistribucion);
+
+    this.rutaDistribucionForm.setValue(this.rutaDistribucionModel);
+    this.rutaDistribucionForm.controls['fechaDistribucion'].setValue(dateMoment);    
   }
 
   getChoferAll() {
@@ -284,10 +364,11 @@ export class RutaDistribucionEditComponent implements OnInit {
         res => {
           this.transportistasModel = res.map(
             item => {
-              return new TransportistaModel(item.idTransportista,item.proveedorcliente);
+              return new TransportistaModel(item.idTransportista, item.proveedorcliente);
             }
           )
         }
       )
   }
 }
+
