@@ -168,7 +168,8 @@ export class RutaDistribucionDetalleComponent implements OnInit {
       res => {
    
         this.rutaDistribucionModel =  
-        new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,res.chofer,  res.vehiculo, res.transportista, res.rutaDistribucionDetalles
+        new RutaDistribucionModel(res.idRutaDistribucion, res.dscRutaDistribucion, res.anno, res.numeroEntrega, res.empleadoDistribuidor,res.chofer,  res.vehiculo, 
+          res.transportista,res.fechaDisttribucion,  res.rutaDistribucionDetalles
         );
       
         this.buildForm();
@@ -229,6 +230,7 @@ export class RutaDistribucionDetalleComponent implements OnInit {
             this.rutaDistribucionModel.rutaDistribucionDetalles.splice(e,1);
             this.rutaDistribucionModel.rutaDistribucionDetalles = this.rutaDistribucionModel.rutaDistribucionDetalles.slice();
             this.sumTotalAcum();
+            this.edit();
             
           },
           error => {
