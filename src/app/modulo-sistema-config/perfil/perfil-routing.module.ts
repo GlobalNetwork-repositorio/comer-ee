@@ -7,7 +7,7 @@ import { PerfilEditComponent } from './perfil-edit/perfil-edit.component';
 
 const routes: Routes = [
   {
-    path : 'main', component : PerfilMainComponent,
+    path : '', component : PerfilMainComponent,
 
     children : [
       {

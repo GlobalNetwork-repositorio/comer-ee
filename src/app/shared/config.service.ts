@@ -127,7 +127,7 @@ getHeaderHttpClientFormPostTypeJson(){
 }
 getHeaderHttpClientForm(){
   let headers= new HttpHeaders()
-          .set('Authorization', 'Bearer '+localStorage.getItem("token"))
+          // .set('Authorization', 'Bearer '+localStorage.getItem("token"))
           .set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE")
           .set("Content-Type","application/x-www-form-urlencoded")
           .set("Access-Control-Allow-Credentials", "true")
@@ -138,7 +138,7 @@ getHeaderHttpClientForm(){
 
 getHeaderHttpClientGet(){
   let headers= new HttpHeaders()
-          .set('Authorization', 'Bearer '+localStorage.getItem("token"))
+          // .set('Authorization', 'Bearer '+localStorage.getItem("token"))
           .set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE")
           .set("Content-Type", "application/json")
           .set("Access-Control-Allow-Credentials", "true")

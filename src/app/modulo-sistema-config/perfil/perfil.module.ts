@@ -10,6 +10,14 @@ import { GrowlModule, DataTableModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 
+import { TableModule } from 'primeng/table';
+
+// material
+import { MatInputModule } from '@angular/material';
+//import { MatTreeModule } from '@angular/material/tree';
+
+//primeng
+import { TreeModule } from 'primeng/tree';
 
 @NgModule({
   imports: [
@@ -17,9 +25,12 @@ import { SharedModule } from '../../shared/shared.module';
     PerfilRoutingModule,
     GrowlModule,
     DataTableModule,
+    TableModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    MatInputModule,
+    TreeModule
   ],
   declarations: [PerfilMainComponent, PerfilListComponent, PerfilEditComponent]
 })

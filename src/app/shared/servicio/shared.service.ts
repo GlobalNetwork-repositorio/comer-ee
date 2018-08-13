@@ -33,7 +33,10 @@ export class SharedService {
 
   save(model,controller:string,evento:string){
       let jsonModel = JSON.stringify(model);
-  
+      console.log(jsonModel);
+
+      localStorage.setItem('pintar', controller); // para actualizar las listas despues de modificar o guardar
+
 		  let url = this.configService.getUrlSecurityRes(controller,evento);
    		return this.httpClient.post(url,jsonModel,{headers:this.configService.getHeaderHttpClientForm()})
            ;		                 
@@ -142,6 +145,15 @@ export class SharedService {
                   {id:12,mes:'Diciembre'}];
     return meses;
 
+  }
+
+
+  // para refrescar las listas despues de agregar o modificar registros por el crud
+  refreshByStorage(controller: string): boolean {
+    const valorPintarStorage = localStorage.getItem('pintar') || '';
+    const rpt = valorPintarStorage === controller ? true : false;
+    if (rpt) { localStorage.removeItem('pintar'); }
+    return rpt;
   }
 
 }

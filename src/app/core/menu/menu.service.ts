@@ -117,6 +117,20 @@ const MENUITEMS = [
   },
 
   {
+    state: 'configuracion',
+    name: 'CONFIGURACION',
+    type: 'sub',
+    icon: 'local_grocery_store',
+    badge: [
+      { type: 'red', value: '2' }
+    ],
+    children: [
+      { state: 'perfiles', name: 'Perfiles' },
+    ]
+  },
+  
+
+  {
     state: 'http://primer.nyasha.me/docs',
     name: 'DOCS',
     type: 'extTabLink',

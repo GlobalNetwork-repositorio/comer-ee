@@ -48,6 +48,10 @@ export const AppRoutes: Routes = [
       {
         path : 'qaliwarma/parametros',
         loadChildren : './qaliwarma/parametros/parametros.module#ParametrosModule'
+      },
+      {
+        path: 'configuracion/perfiles',
+        loadChildren: './modulo-sistema-config/perfil/perfil.module#PerfilModule'        
       }
     
 

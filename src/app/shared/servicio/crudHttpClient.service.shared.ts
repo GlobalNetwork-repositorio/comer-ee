@@ -32,6 +32,8 @@ export class CrudHttpClientServiceShared {
     let url = this.configService.getUrlSecurityRes(controller,evento);
     let header = this.configService.getHeaderHttpClientGet();
 
+    localStorage.setItem('pintar', controller); // para actualizar las listas despues de modificar o guardar
+
     return this.httpClient.post<any>(url,model,{headers:header});
 
   }
