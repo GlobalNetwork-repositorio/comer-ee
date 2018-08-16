@@ -126,6 +126,8 @@ const MENUITEMS = [
     ],
     children: [
       { state: 'perfiles', name: 'Perfiles' },
+      { state: 'usuarios', name: 'Usuarios' },
+      { state: 'tipo.documento', name: 'Tipos de documentos' },
     ]
   },
   

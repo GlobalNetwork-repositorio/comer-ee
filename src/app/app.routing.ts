@@ -52,9 +52,15 @@ export const AppRoutes: Routes = [
       {
         path: 'configuracion/perfiles',
         loadChildren: './modulo-sistema-config/perfil/perfil.module#PerfilModule'        
-      }
-    
-
+      },
+      {
+        path: 'configuracion/usuarios',
+        loadChildren: './modulo-sistema-config/usuario/usuario.module#UsuarioModule'
+      },
+      {
+        path: 'configuracion/tipo.documento',
+        loadChildren: './modulo-sistema-config/tipodocumento/tipodocumento.module#TipodocumentoModule'
+      },
     ]
   }, 
  
